@@ -1,0 +1,29 @@
+﻿@model Training_FPT0.ViewModels.TrainerTopicViewModel
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Assign Trainer to Topic</h2>
+
+@using (Html.BeginForm("Create", "TrainerTopics", FormMethod.Post))
+{
+    <div class="form-group">
+        @Html.LabelFor(tr => tr.TrainerTopic.TrainerId)
+        @Html.DropDownListFor(tr => tr.TrainerTopic.TrainerId
+           , new SelectList(Model.Trainers, "Id", "UserName"),
+           "Select Trainer",
+           new { @class = "form-control" }
+         )
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(tr => tr.TrainerTopic.Topic.Name)
+        @Html.DropDownListFor(tr => tr.TrainerTopic.TopicId
+           , new SelectList(Model.Topics, "Id", "Name"),
+           "Select Topic",
+           new { @class = "form-control" }
+         )
+    </div>
+
+    <button type="submit" class="btn btn-primary">Assign</button>
+}
