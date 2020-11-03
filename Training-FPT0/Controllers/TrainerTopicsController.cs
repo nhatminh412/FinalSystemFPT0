@@ -60,7 +60,7 @@ namespace Training_FPT0.Controllers
         [Authorize(Roles = "TrainingStaff")]
         public ActionResult Create(TrainerTopic trainerTopic)
         {
-        
+
             if (!ModelState.IsValid)
             {
                 return View();
@@ -83,47 +83,7 @@ namespace Training_FPT0.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index", "TrainerTopics");
         }
-        [HttpGet]
-        [Authorize(Roles = "TrainingStaff")]
-        public ActionResult Edit(int id)
-        {
-            var ttInDb = _context.TrainerTopics.SingleOrDefault(p => p.Id == id);
-            if (ttInDb == null)
-            {
-                return HttpNotFound();
-            }
-
-            var viewModel = new TrainerTopicViewModel
-            {
-                TrainerTopic = ttInDb,
-                Topics = _context.Topics.ToList(),
-
-            };
-
-            return View(viewModel);
-        }
-        [HttpPost]
-        [Authorize(Roles = "TrainingStaff")]
-        public ActionResult Edit(TrainerTopic trainerTopic)
-        {
-
-            if (!ModelState.IsValid)
-            {
-                return View();
-            }
-
-            var ttInDb = _context.TrainerTopics.SingleOrDefault(p => p.Id == trainerTopic.Id);
-            if (ttInDb == null)
-            {
-                return HttpNotFound();
-            }
-            ttInDb.TopicId = trainerTopic.TopicId;
-
-                _context.SaveChanges();
-
-                return RedirectToAction("Index", "TrainerTopics");
-            }
-
+        
         [Authorize(Roles = "TrainingStaff")]
         public ActionResult Delete(int id)
         {

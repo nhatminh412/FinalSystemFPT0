@@ -95,26 +95,25 @@ namespace Training_FPT0.Controllers
 
 		[HttpGet]
 		[Authorize(Roles = "TrainingStaff")]
-
 		public ActionResult Edit(int id)
 		{
-			var topicInDb = _context.Topics.SingleOrDefault(p => p.Id == id);
-
+			var topicInDb = _context.Topics.SingleOrDefault(c => c.Id == id);
 			if (topicInDb == null)
 			{
 				return HttpNotFound();
 			}
+
 			var viewModel = new TopicCourseViewModel
 			{
 				Topic = topicInDb,
-				Courses = _context.Courses.ToList(),
+				Courses = _context.Courses.ToList()
 			};
+
 			return View(viewModel);
 		}
 
 		[HttpPost]
 		[Authorize(Roles = "TrainingStaff")]
-
 		public ActionResult Edit(Topic topic)
 		{
 			if (!ModelState.IsValid)
@@ -122,20 +121,23 @@ namespace Training_FPT0.Controllers
 				return View();
 			}
 
-			var topicInDb = _context.Topics.SingleOrDefault(p => p.Id == topic.Id);
+			var topicInDb = _context.Topics.SingleOrDefault(c => c.Id == topic.Id);
 
 			if (topicInDb == null)
 			{
 				return HttpNotFound();
 			}
 
-			topicInDb.Name = topicInDb.Name;
-			topicInDb.Description = topicInDb.Description;
-			topicInDb.CourseId = topicInDb.CourseId;
-
-
+			var checkTopicAndCourse = _context.Topics.Any(c => c.Name == topic.Name &&
+																   c.CourseId == topic.CourseId);
+			if (checkTopicAndCourse == true)
+			{
+				return View("~/Views/TrainerTopics/AssignExistTrainerTopic.cshtml");
+			}
+			topicInDb.Name = topic.Name;
+			topicInDb.Description = topic.Description;
+			topicInDb.CourseId = topic.CourseId;
 			_context.SaveChanges();
-
 			return RedirectToAction("Index");
 		}
 		// GET: Topics/Details/5

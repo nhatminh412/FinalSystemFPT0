@@ -17,7 +17,6 @@
                         <th>
                             @Html.DisplayNameFor(model => model.Course)
                         </th>
-                        <th>Edit</th>
                         <th>Delete</th>
                     </tr>
 
@@ -30,7 +29,6 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Course.Name)
                     </td>
-                    <td>@Html.ActionLink("Edit", "Edit", new { id = item.Id })</td>
                     <td>@Html.ActionLink("Delete", "Delete", new { id = item.Id })</td>
                 </tr>
 }
